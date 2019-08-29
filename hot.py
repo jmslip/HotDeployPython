@@ -3,12 +3,19 @@ import os
 import shutil as cp
 import sys
 from git import Repo
+import re
+import helpers
 
-def dirGit():
-    return os.path.abspath('C:\\GIT\\SOL\\')
+def getEAR():
+    path = os.path.abspath(helpers.pathWeblogic()+helpers.separadorDir()+'upload')
+    diretorio = os.listdir(path)
+    
+    for d in diretorio:
+        if re.search('base', d, re.IGNORECASE):
+            return d
 
-def pathWeblogic():
-    return os.path.abspath('C:\\ambiente\\sw\\Oracle\\Middleware12212\\Oracle_Home\\user_projects\\domains\\cash\\servers\\AdminServer\\tmp\\_WL_user\\sol-base-ear-5.5.0-SNAPSHOT-DEV')
+def getDirFilesEAR():
+    return helpers.pathWeblogic() + helpers.separadorDir() + 'tmp\\_WL_user' + helpers.separadorDir() + getEAR()            
 
 def openBrowser():
     browser = webdriver.Chrome() 
@@ -17,7 +24,7 @@ def openBrowser():
 # Percorre todo o diretório do servido para encontrar os arquivos
 def findFile(fileFonte):
     files = []
-    for pastaAtual, subPasta, arquivos in os.walk(pathWeblogic()):
+    for pastaAtual, subPasta, arquivos in os.walk(getDirFilesEAR()):
         files.extend([os.path.join(pastaAtual, arquivo) for arquivo in arquivos if arquivo == fileFonte])
     return files                                
 
@@ -41,7 +48,7 @@ def copy():
         for item in files:
             pathFile = item.split('/')
             fileName = pathFile[-1]
-            fonte = dirGit() + '/' + item
+            fonte = helpers.dirGit() + '/' + item
             destino = findFile(fileName)[0]
             try:
                 cp.copyfile(fonte, destino)
