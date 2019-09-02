@@ -5,6 +5,7 @@ import sys
 from git import Repo
 import re
 import helpers
+import sys
 
 def getEAR():
     path = os.path.abspath(helpers.pathWeblogic()+helpers.separadorDir()+'upload')
@@ -19,7 +20,7 @@ def getDirFilesEAR():
 
 def openBrowser():
     browser = webdriver.Chrome() 
-    browser.get('http://localhost:7001/sol')
+    browser.get('http://localhost:7001/sol/faces/pages/')
 
 # Percorre todo o diretório do servido para encontrar os arquivos
 def findFile(fileFonte):
@@ -29,7 +30,7 @@ def findFile(fileFonte):
     return files                                
 
 def repo():
-    repo = Repo('C:\\GIT\\SOL\\')
+    repo = Repo(helpers.dirGit())
     assert not repo.bare
     return repo
 
@@ -42,8 +43,10 @@ def gitDiff():
             itensDiff.append(item.a_path)
     return itensDiff
 
-def copy():
-    files = gitDiff()
+def copy(files):
+    if files != None:
+        files = gitDiff()
+
     if len(files) > 0:
         for item in files:
             pathFile = item.split('/')
@@ -58,4 +61,14 @@ def copy():
     else:
         print("Nenhum arquivo para realizar deploy!")
 
-copy()
+def main():
+    files = []
+    i = 0
+    for arg in sys.argv:
+        if i != 0:
+            files.append(arg)
+        i = i + 1
+    copy(files)
+
+
+main()
