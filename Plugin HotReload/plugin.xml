@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.commands">
+      	<category name="HotReload" id="br.com.hotreload"></category>
+      	<command name="HotReload Oracle" categoryId="br.com.hotreload" id="br.com.hotreload.oracle">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.handlers">
+		<handler commandId="br.com.hotreload.oracle" class="com.prosegur.active.SaveHotReload">
+      </handler>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		 <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar id="Teste.toolbars.sampleToolbar">
+            <command commandId="br.com.hotreload.oracle"
+                  icon="icons/fire.png"
+                  tooltip="Oracle Hot Reload"
+                  id="br.com.hotreload.toolbar.oracle">
+            </command>
+         </toolbar>
+      </menuContribution>
+	</extension>
+	 <extension point="org.eclipse.ui.startup">
+	 		<startup class="com.prosegur.active.StartupHotReload"/>
+	 </extension>
+</plugin>

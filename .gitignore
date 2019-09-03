@@ -1,3 +1,10 @@
 .vscode
 envhotdep
 __pycache__
+
+
+*.settings
+*/bin
+*/RELEASE
+*.classpath
+*.project
