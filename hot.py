@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from selenium import webdriver
 import os
 import shutil as cp
